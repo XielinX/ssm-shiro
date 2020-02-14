@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<<<<<<< HEAD
+<mapper namespace="com.xlx.ssmpshiro.system.dao.LogErrorMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xlx.ssmpshiro.system.entity.LogError">
+        <id column="id" property="id" />
+        <result column="request_uri" property="requestUri" />
+        <result column="method" property="method" />
+        <result column="user_agent" property="userAgent" />
+        <result column="ip" property="ip" />
+        <result column="ip_location" property="ipLocation" />
+        <result column="message" property="message" />
+        <result column="gmt_create" property="gmtCreate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, request_uri, method, user_agent, ip, ip_location, messagg, gmt_create
+    </sql>
+
+</mapper>
+=======
 <mapper namespace="com.xlx.shiro.system.dao.LogErrorMapper">
   <resultMap id="BaseResultMap" type="com.xlx.shiro.system.entity.LogError">
     <id column="id" jdbcType="BIGINT" property="id" />
@@ -126,3 +148,4 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
+>>>>>>> 846158696bd18a40ce7dde68403df78c131bc166

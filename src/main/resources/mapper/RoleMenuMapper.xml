@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<<<<<<< HEAD
+<mapper namespace="com.xlx.ssmpshiro.system.dao.RoleMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xlx.ssmpshiro.system.entity.RoleMenu">
+        <id column="id" property="id" />
+        <result column="role_id" property="roleId" />
+        <result column="menu_id" property="menuId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_id, resource_id
+    </sql>
+
+</mapper>
+=======
 <mapper namespace="com.xlx.shiro.system.dao.RoleMenuMapper">
     <resultMap id="BaseResultMap" type="com.xlx.shiro.system.entity.RoleMenu">
         <id column="id" jdbcType="BIGINT" property="id"/>
@@ -115,3 +132,4 @@
     </update>
 
 </mapper>
+>>>>>>> 846158696bd18a40ce7dde68403df78c131bc166
