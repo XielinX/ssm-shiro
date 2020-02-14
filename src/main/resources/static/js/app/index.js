@@ -161,6 +161,7 @@ $(document).ready(function () {
 
 /**
  * 用于加载菜单内容
+ * url为数据库里所有
  * @param obj
  */
 function loadMain(obj) {
