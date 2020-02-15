@@ -63,7 +63,7 @@ $(document).ready(function () {
 });
 
 /**
- * 菜单打开/合闭
+ * 左侧导航菜单打开/合闭
  */
 $(document).ready(function () {
     //使用递归处理菜单

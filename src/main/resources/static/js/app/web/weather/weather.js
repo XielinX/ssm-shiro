@@ -1,4 +1,8 @@
 $(function() {
+
+    /**
+     * 从配置文件读取城市id
+     */
     $.getJSON(ctx + "file/city.json", function(r) {
         $('#search-form').autocomplete({
             hints: r,
@@ -15,12 +19,15 @@ $(function() {
 
 });
 
+/**
+ * 查询城市天气
+ */
 function search() {
     var areaId = $('#areaId').text();
     if (areaId.length) {
         $.post(ctx + "weather/query", { "areaId": areaId }, function(r) {
-            if (r.code === 0) {
-                var data = JSON.parse(r.msg);
+            if (r.code === 200) {
+                const data = JSON.parse(r.message);
                 if (data.code == 200) {
                     var countyName = data.value[0].city;
                     var weathers = data.value[0].weathers;
@@ -210,7 +217,7 @@ function search() {
                     $MB.n_danger(data.message);
                 }
             } else {
-                $MB.n_danger(r.msg);
+                $MB.n_danger(r.message);
             }
         });
     } else {

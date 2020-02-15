@@ -1,11 +1,15 @@
 package com.xlx.shiro.web.controller;
 
+import com.xlx.shiro.common.constant.WeatherConstant;
+import com.xlx.shiro.common.util.HttpUtils;
 import com.xlx.shiro.system.dto.ResultDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.IOException;
 
 /**
  * 天气
@@ -34,6 +38,13 @@ public class WeatherController {
     @RequestMapping("/weather/query")
     @ResponseBody
     public ResultDTO searchWeather(String areaId){
-        return ResultDTO.success();
+        try {
+            String weatherData = HttpUtils.sendPost(WeatherConstant.MEIZU_WEATHER_URL, areaId);
+            log.info("天气数据:{}",weatherData);
+            return ResultDTO.success(weatherData);
+        } catch (IOException e) {
+            log.error("查询[{}]天气异常:{}",areaId,e.getMessage());
+            return ResultDTO.failed("获取天气数据失败!");
+        }
     }
 }
