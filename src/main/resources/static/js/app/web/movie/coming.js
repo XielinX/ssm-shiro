@@ -1,5 +1,5 @@
 $(function () {
-    $.post(ctx + 'movie/getMovieComing', {}, function (r) {
+    $.get(ctx + 'movie/getMovieComing', {}, function (r) {
         if (r.code === 0) {
             var data = JSON.parse(r.msg);
             var movie_list = data.moviecomings;
@@ -35,7 +35,7 @@ $(function () {
 
 
 function getMoiveDetail(id) {
-    $.post(ctx + "movie/detail", {"id": id}, function (r) {
+    $.get(ctx + "movie/detail", {"id": id}, function (r) {
         if (r.code === 0) {
             var data = JSON.parse(r.msg).data;
             var basic = data.basic;
@@ -78,7 +78,7 @@ function getMoiveDetail(id) {
 }
 
 function getMoiveComments(id, title) {
-    $.post(ctx + "movie/comments", {"id": id}, function (r) {
+    $.get(ctx + "movie/comments", {"id": id}, function (r) {
         var data = JSON.parse(r.msg).data;
         var mini = data.mini.list;
         var plus = data.plus.list;

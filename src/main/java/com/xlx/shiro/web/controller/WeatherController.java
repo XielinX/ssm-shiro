@@ -1,6 +1,6 @@
 package com.xlx.shiro.web.controller;
 
-import com.xlx.shiro.common.constant.WeatherConstant;
+import com.xlx.shiro.common.constant.WebConstant;
 import com.xlx.shiro.common.util.HttpUtils;
 import com.xlx.shiro.system.dto.ResultDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +39,7 @@ public class WeatherController {
     @ResponseBody
     public ResultDTO searchWeather(String areaId){
         try {
-            String weatherData = HttpUtils.sendPost(WeatherConstant.MEIZU_WEATHER_URL, areaId);
+            String weatherData = HttpUtils.sendPost(WebConstant.MEIZU_WEATHER_URL, areaId);
             log.info("天气数据:{}",weatherData);
             return ResultDTO.success(weatherData);
         } catch (IOException e) {

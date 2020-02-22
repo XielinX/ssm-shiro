@@ -1,5 +1,6 @@
 package com.xlx.shiro.web.controller;
 
+import com.xlx.shiro.common.constant.WebConstant;
 import com.xlx.shiro.common.util.HttpUtils;
 import com.xlx.shiro.system.dto.ResultDTO;
 import org.slf4j.Logger;
@@ -35,11 +36,63 @@ public class MovieController {
     @ResponseBody
     public ResultDTO getHotMovieInfo(){
         try{
-            String content = HttpUtils.sendSSLPost("", "");
+            String content = HttpUtils.sendSSLPost(WebConstant.TIME_MOVIE_HOT_URL, "locationId=328");
             return ResultDTO.success(content);
         }catch (Exception e){
-            logger.error("");
-            return ResultDTO.failed("");
+            logger.error("获取热门电影数据失败:{}",e.getMessage());
+            return ResultDTO.failed("获取热门电影数据失败!");
         }
     }
+    
+    /**
+     * 即将上映电影
+     * @return dto
+     */
+    @GetMapping("/movie/getMovieComing")
+    @ResponseBody
+    public ResultDTO getMovieComingInfo(){
+        try{
+            String content = HttpUtils.sendSSLPost(WebConstant.TIME_MOVIE_COMING_URL, "locationId=328");
+            return ResultDTO.success(content);
+        }catch (Exception e){
+            logger.error("获取即将上映电影数据失败:{}",e.getMessage());
+            return ResultDTO.failed("获取即将上映电影数据失败!");
+        }
+    }
+    
+    /**
+     * 电影详情
+     * @param id 电影id
+     * @return dto
+     */
+    @GetMapping("/movie/detail")
+    @ResponseBody
+    public ResultDTO getMovieDetailsInfo(String id){
+        try{
+            String content = HttpUtils.sendSSLPost(WebConstant.TIME_MOVIE_DETAIL_URL, "locationId=328&movieId=" + id);
+            return ResultDTO.success(content);
+        }catch (Exception e){
+            logger.error("获取电影详情数据失败:{}",e.getMessage());
+            return ResultDTO.failed("获取电影详情数据失败!");
+        }
+    }
+    
+    /**
+     * 电影评论
+     * @param id 电影id
+     * @return dto
+     */
+    @GetMapping("/movie/comments")
+    @ResponseBody
+    public ResultDTO getMovieCommentsInfo(String id){
+        try{
+            String content = HttpUtils.sendSSLPost(WebConstant.TIME_MOVIE_COMMENTS_URL, "locationId=328&movieId=" + id);
+            return ResultDTO.success(content);
+        }catch (Exception e){
+            logger.error("获取电影评论数据失败:{}",e.getMessage());
+            return ResultDTO.failed("获取电影评论数据失败!");
+        }
+    }
+    
+    
 }

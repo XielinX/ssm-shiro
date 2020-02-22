@@ -1,7 +1,7 @@
 $(function () {
-    $.post(ctx + 'movie/getMovieHot', {}, function (r) {
-        if (r.code === 0) {
-            var data = JSON.parse(r.msg);
+    $.get(ctx + 'movie/getMovieHot', {}, function (r) {
+        if (r.code === 200) {
+            var data = JSON.parse(r.message);
             var movie_list = data.ms;
             var movie_list_html = "";
             for (var i = 0; i < movie_list.length; i++) {
@@ -29,7 +29,7 @@ $(function () {
                 });
             });
         } else {
-            $MB.n_danger(r.msg);
+            $MB.n_danger(r.message);
         }
     });
 });
@@ -83,9 +83,9 @@ function getScoreHtml(score) {
 }
 
 function getMoiveDetail(id) {
-    $.post(ctx + "movie/detail", {"id": id}, function (r) {
-        if (r.code === 0) {
-            var data = JSON.parse(r.msg).data;
+    $.get(ctx + "movie/detail", {"id": id}, function (r) {
+        if (r.code === 200) {
+            var data = JSON.parse(r.message).data;
             var basic = data.basic;
             $("#img").attr("src", basic.img);
             var movieName = basic.name;
@@ -123,8 +123,8 @@ function getMoiveDetail(id) {
 }
 
 function getMoiveComments(id, title) {
-    $.post(ctx + "movie/comments", {"id": id}, function (r) {
-        var data = JSON.parse(r.msg).data;
+    $.get(ctx + "movie/comments", {"id": id}, function (r) {
+        var data = JSON.parse(r.message).data;
         var mini = data.mini.list;
         var plus = data.plus.list;
         if (!mini.length && !plus.length) {

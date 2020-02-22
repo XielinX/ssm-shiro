@@ -5,10 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.*;
 import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -106,22 +103,47 @@ public class HttpUtils {
 	   StringBuilder builder = new StringBuilder();
 	   String api = url + "?" + param;
 	   try{
+	       // SSLContext
            SSLContext sslContext = SSLContext.getInstance(SSL);
            sslContext.init(null,new TrustManager[]{new TrustAnyTrustManager()},new SecureRandom());
+           // URL
            URL console = new URL(api);
            HttpsURLConnection connection = (HttpsURLConnection) console.openConnection();
-           connection.setRequestProperty(ACCEPT,"*/*");
-           connection.setRequestProperty(CONNECTION,CONNECTION_VALUE);
-       } catch (NoSuchAlgorithmException | KeyManagementException | MalformedURLException e) {
-           e.printStackTrace();
-       } catch (IOException e) {
-           e.printStackTrace();
+           // 设置http响应属性
+           connection.setRequestProperty(CONTENT_TYPE, UTF8);
+           connection.setRequestProperty(ACCEPT_CHARSET, UTF8);
+           connection.setRequestProperty(USER_AGENT, USER_AGENT_VALUE);
+           connection.setRequestProperty(CONNECTION, CONNECTION_VALUE);
+           connection.setRequestProperty(ACCEPT, "*/*");
+           connection.setDoOutput(true);
+           connection.setDoInput(true);
+           
+           //
+           connection.setSSLSocketFactory(sslContext.getSocketFactory());
+           connection.setHostnameVerifier(new TrustAnyHostNameVerify());
+           
+           connection.connect();
+        
+           InputStream inputStream = connection.getInputStream();
+           BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+           String result = "";
+           while (result != null){
+               result = reader.readLine();
+               if (result != null && !"".equals(result.trim())){
+                   builder.append(result);
+               }
+           }
+           connection.disconnect();
+           reader.close();
+       } catch (NoSuchAlgorithmException | KeyManagementException | IOException e) {
+	       log.error("发送SSL POST 请求出现异常:{}",e.getMessage());
        }
-        return "";
+        return builder.toString();
     }
     
     /**
-     * X509TrustManager的实现类
+     * X509TrustManager接口的实现类
+     * X509证书信任管理器
      */
     private static class TrustAnyTrustManager implements X509TrustManager{
     
