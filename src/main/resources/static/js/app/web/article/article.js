@@ -18,9 +18,9 @@ $(function () {
 });
 
 function getArticle(date) {
-    $.post(ctx + "article/query", {"date": date}, function (r) {
-        if (r.code === 0) {
-            var data = JSON.parse(r.msg);
+    $.get(ctx + "article/query", {"date": date}, function (r) {
+        if (r.code === 200) {
+            var data = JSON.parse(r.message);
             $(".card-title").html("").append(data.data.title);
             var curr = data.data.date.curr;
             var newDate = curr.substr(0, 4) + "-" + curr.substr(4, 2) + "-" + curr.substr(6, 2);
@@ -33,7 +33,7 @@ function getArticle(date) {
             $(".next-article span").attr("name", data.data.date.next);
             if (date === "") $("#today").text(curr);
         } else {
-            $MB.n_warning(r.msg);
+            $MB.n_warning(r.message);
         }
     });
 }

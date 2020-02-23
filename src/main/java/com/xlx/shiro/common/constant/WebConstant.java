@@ -17,4 +17,10 @@ public class WebConstant {
     public static final String TIME_MOVIE_DETAIL_URL = "https://ticket-api-m.mtime.cn/movie/detail.api";
     // 电影评论
     public static final String TIME_MOVIE_COMMENTS_URL = "https://ticket-api-m.mtime.cn/movie/hotComment.api";
+    
+    // 今日的文章
+    public static final String MRYW_TODAY_URL = "https://interface.meiriyiwen.com/article/today";
+    
+    // 某天的文章
+    public static final String MRYW_DAY_URL = "https://interface.meiriyiwen.com/article/day";
 }
