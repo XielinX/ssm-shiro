@@ -43,10 +43,10 @@ public class ArticleController {
         try{
             if (StringUtils.isNotBlank(date)) {
                 param = "dev=1&date=" + date;
-                data = HttpUtils.sendSSLPost(WebConstant.MRYW_TODAY_URL, param);
+                data = HttpUtils.sendSSLPost(WebConstant.MRYW_DAY_URL, param);
             } else {
                 param = "dev=1";
-                data = HttpUtils.sendSSLPost(WebConstant.MRYW_DAY_URL, param);
+                data = HttpUtils.sendSSLPost(WebConstant.MRYW_TODAY_URL,param);
             }
             return ResultDTO.success(data);
         }catch (Exception e){

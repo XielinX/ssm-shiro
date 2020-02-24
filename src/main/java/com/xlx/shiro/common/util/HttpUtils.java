@@ -54,16 +54,17 @@ public class HttpUtils {
         String header = request.getHeader("X-Requested-With");
         return "XMLHttpRequest".equals(header);
     }
-	
-	
-	/**
-	 * POST请求查询天气
-	 * @param url 魅族天气接口
-	 * @param params 城市
-	 * @return 接口响应内容
-	 * @throws IOException 异常
-	 */
-	public static String sendPost(String url, String params) throws IOException {
+    
+    
+    /**
+     * POST请求查询天气
+     *
+     * @param url    魅族天气接口
+     * @param params 城市
+     * @return 接口响应内容
+     * @throws IOException 异常
+     */
+    public static String sendPost(String url, String params) throws IOException {
         String urlPath = url + "?" + params;
         // URL类
         URL url1 = new URL(urlPath);
@@ -81,13 +82,13 @@ public class HttpUtils {
         
         try (PrintWriter printWriter = new PrintWriter(urlConnection.getOutputStream()); BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8))) {
             String line;
-            while ((line = reader.readLine()) != null){
-	            content.append(line);
+            while ((line = reader.readLine()) != null) {
+                content.append(line);
             }
             printWriter.flush();
             printWriter.print(params);
-        }catch (Exception e){
-            log.error("连接天气接口失败:{}",e.getMessage());
+        } catch (Exception e) {
+            log.error("连接天气接口失败:{}", e.getMessage());
         }
         return content.toString();
     }
@@ -95,49 +96,48 @@ public class HttpUtils {
     
     /**
      * 查询热门电影
-     * @param url 电影api接口
+     *
+     * @param url   电影api接口
      * @param param 查询参数
      * @return 查询内容
      */
-    public static String sendSSLPost(String url,String param){
-	   StringBuilder builder = new StringBuilder();
-	   String api = url + "?" + param;
-	   try{
-	       // SSLContext
-           SSLContext sslContext = SSLContext.getInstance(SSL);
-           sslContext.init(null,new TrustManager[]{new TrustAnyTrustManager()},new SecureRandom());
-           // URL
-           URL console = new URL(api);
-           HttpsURLConnection connection = (HttpsURLConnection) console.openConnection();
-           // 设置http响应属性
-           connection.setRequestProperty(CONTENT_TYPE, UTF8);
-           connection.setRequestProperty(ACCEPT_CHARSET, UTF8);
-           connection.setRequestProperty(USER_AGENT, USER_AGENT_VALUE);
-           connection.setRequestProperty(CONNECTION, CONNECTION_VALUE);
-           connection.setRequestProperty(ACCEPT, "*/*");
-           connection.setDoOutput(true);
-           connection.setDoInput(true);
-           
-           //
-           connection.setSSLSocketFactory(sslContext.getSocketFactory());
-           connection.setHostnameVerifier(new TrustAnyHostNameVerify());
-           
-           connection.connect();
+    public static String sendSSLPost(String url, String param) throws Exception {
+        StringBuilder builder = new StringBuilder();
+        String api = url + "?" + param;
+        // SSLContext
+        SSLContext sslContext = SSLContext.getInstance(SSL);
+        sslContext.init(null, new TrustManager[]{new TrustAnyTrustManager()}, new SecureRandom());
+        // URL
+        URL console = new URL(api);
+        HttpsURLConnection connection = (HttpsURLConnection) console.openConnection();
+        // 设置http响应属性
+        connection.setRequestProperty(CONTENT_TYPE, UTF8);
+        connection.setRequestProperty(ACCEPT_CHARSET, UTF8);
+        connection.setRequestProperty(USER_AGENT, USER_AGENT_VALUE);
+        connection.setRequestProperty(CONNECTION, CONNECTION_VALUE);
+        connection.setRequestProperty(ACCEPT, "*/*");
+        connection.setDoOutput(true);
+        connection.setDoInput(true);
         
-           InputStream inputStream = connection.getInputStream();
-           BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-           String result = "";
-           while (result != null){
-               result = reader.readLine();
-               if (result != null && !"".equals(result.trim())){
-                   builder.append(result);
-               }
-           }
-           connection.disconnect();
-           reader.close();
-       } catch (NoSuchAlgorithmException | KeyManagementException | IOException e) {
-	       log.error("发送SSL POST 请求出现异常:{}",e.getMessage());
-       }
+        //
+        connection.setSSLSocketFactory(sslContext.getSocketFactory());
+        connection.setHostnameVerifier(new TrustAnyHostNameVerify());
+        
+        connection.connect();
+        
+        InputStream inputStream = connection.getInputStream();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        String result = "";
+        while (result != null) {
+            result = reader.readLine();
+            if (result != null && !"".equals(result.trim())) {
+                builder.append(result);
+            }
+        }
+        
+        connection.disconnect();
+        reader.close();
+        
         return builder.toString();
     }
     
@@ -145,18 +145,18 @@ public class HttpUtils {
      * X509TrustManager接口的实现类
      * X509证书信任管理器
      */
-    private static class TrustAnyTrustManager implements X509TrustManager{
-    
+    private static class TrustAnyTrustManager implements X509TrustManager {
+        
         @Override
         public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
             //
         }
-    
+        
         @Override
         public void checkServerTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
             //
         }
-    
+        
         @Override
         public X509Certificate[] getAcceptedIssuers() {
             return new X509Certificate[0];
@@ -166,8 +166,8 @@ public class HttpUtils {
     /**
      * HostnameVerifier的实现类
      */
-    private static class TrustAnyHostNameVerify implements HostnameVerifier{
-    
+    private static class TrustAnyHostNameVerify implements HostnameVerifier {
+        
         @Override
         public boolean verify(String s, SSLSession sslSession) {
             return true;
