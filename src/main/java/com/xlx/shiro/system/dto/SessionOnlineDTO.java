@@ -28,10 +28,6 @@ public class SessionOnlineDTO implements Serializable {
      */
     private String host;
 
-    /**
-     * 电脑登录的IP
-     */
-    private String systemHost;
 
     /**
      * 状态
@@ -88,14 +84,6 @@ public class SessionOnlineDTO implements Serializable {
     
     public void setHost(String host) {
         this.host = host;
-    }
-    
-    public String getSystemHost() {
-        return systemHost;
-    }
-    
-    public void setSystemHost(String systemHost) {
-        this.systemHost = systemHost;
     }
     
     public String getStatus() {

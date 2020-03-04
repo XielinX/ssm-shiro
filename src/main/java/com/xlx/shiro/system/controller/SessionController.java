@@ -32,7 +32,7 @@ public class SessionController{
      * @return html
      */
     @GetMapping("/session")
-    //@RequiresPermissions("session:list")
+    @RequiresPermissions("session:list")
     public String sessionHtml(){
         return "system/monitor/online";
     }
@@ -41,8 +41,8 @@ public class SessionController{
      * 获取所有登录用户session
      * @return Map
      */
+    @RequiresPermissions("session:list")
     @GetMapping("/session/list")
-    //@RequiresPermissions("session:list")
     @ResponseBody
     public Map<String,Object> list(){
         List<SessionOnlineDTO> list = sessionService.listSession();
@@ -52,22 +52,22 @@ public class SessionController{
         return dataMap;
     }
     
-    
     /**
      * 下线
      * @param sessionId 会话id
      * @return dto
      */
+    @RequiresPermissions("user:kickout")
     @GetMapping("/session/forceLogout")
-    //@RequiresPermissions("user:kickout")
     @ResponseBody
     public ResultDTO forceLogout(String sessionId){
         try{
             sessionService.forceLogout(sessionId);
-            return ResultDTO.success();
         }catch (Exception e){
             logger.error("剔除用户失败:{}",e.getMessage());
             return ResultDTO.failed("强制用户下线失败");
         }
+        return ResultDTO.success();
     }
+    
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xlx.shiro.common.util.AddressUtil;
 import com.xlx.shiro.system.dto.SessionOnlineDTO;
 import com.xlx.shiro.system.entity.User;
+import com.xlx.shiro.system.enums.OnlineEnum;
 import com.xlx.shiro.system.service.SessionService;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.DefaultSessionContext;
@@ -56,7 +57,7 @@ public class SessionServiceImpl implements SessionService {
             sessionOnlineDTO.setLastAccessTime(session.getLastAccessTime());
             
             long timeout = session.getTimeout();
-            sessionOnlineDTO.setStatus(timeout == 0L ? "0" : "1");
+            sessionOnlineDTO.setStatus(timeout == 0L ? OnlineEnum.OFFLINE.getNum().toString() : OnlineEnum.ONLINE.getNum().toString());
             sessionOnlineDTO.setTimeout(timeout);
            
             String address = AddressUtil.getCityInfo(sessionOnlineDTO.getHost());
@@ -69,6 +70,7 @@ public class SessionServiceImpl implements SessionService {
     
     @Override
     public boolean forceLogout(String sessionId) {
+        
         Session session = sessionDAO.readSession(sessionId);
         session.setTimeout(0L);
         session.stop();
