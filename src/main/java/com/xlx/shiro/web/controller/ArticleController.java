@@ -51,7 +51,7 @@ public class ArticleController {
             return ResultDTO.success(data);
         }catch (Exception e){
             logger.error("获取文章失败:{}",e.getMessage());
-            return ResultDTO.failed("获取文章失败");
+            return ResultDTO.failed("获取文章失败,请检查网络是否正常");
         }
     }
 }

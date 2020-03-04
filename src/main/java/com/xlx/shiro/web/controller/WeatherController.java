@@ -44,7 +44,7 @@ public class WeatherController {
             return ResultDTO.success(weatherData);
         } catch (IOException e) {
             log.error("查询[{}]天气异常:{}",areaId,e.getMessage());
-            return ResultDTO.failed("获取天气数据失败!");
+            return ResultDTO.failed("获取天气数据失败,请检查网络是否正常");
         }
     }
 }

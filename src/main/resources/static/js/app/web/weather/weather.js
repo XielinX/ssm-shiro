@@ -6,7 +6,7 @@ $(function() {
     $.getJSON(ctx + "file/city.json", function(r) {
         $('#search-form').autocomplete({
             hints: r,
-            placeholder: '城市名',
+            placeholder: '城市名,如 深圳',
             keyname: 'areaid',
             width: 300,
             height: 29,
@@ -221,7 +221,7 @@ function search() {
             }
         });
     } else {
-        $MB.n_warning("请输入城市！");
+        $MB.n_warning("请输入城市!");
     }
 
 }

@@ -35,6 +35,12 @@ $(function () {
     $MB.initTable('onlineTable', settings);
 });
 
+/**
+ * 下线
+ * @param id sessionId
+ * @param status 状态
+ * @param username 用户
+ */
 function offline(id, status, username) {
     if (status === "0") {
         $MB.n_warning("该用户已是离线状态！！");
@@ -43,12 +49,12 @@ function offline(id, status, username) {
     if (username === userName) {
         location.href = ctx + 'logout';
     }
-    $.get(ctx + "session/forceLogout", {"id": id}, function (r) {
+    $.get(ctx + "session/forceLogout", {"sessionId": id}, function (r) {
         if (r.code === 0) {
             $MB.n_success('该用户已强制下线！');
             $MB.refreshTable('onlineTable');
         } else {
-            $MB.n_danger(r.msg);
+            $MB.n_danger(r.message);
         }
     }, "json");
 }

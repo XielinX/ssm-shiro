@@ -56,7 +56,6 @@ public class BaseController {
 	 */
 	private Map<String, Object> getDataTable(PageInfo<?> pageInfo) {
 		Map<String, Object> dataMap = new HashMap<>();
-		
 		// 分页的结果集
 		dataMap.put("rows", pageInfo.getList());
 		//数据总记录

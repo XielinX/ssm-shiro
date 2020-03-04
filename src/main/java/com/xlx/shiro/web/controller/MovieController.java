@@ -73,7 +73,7 @@ public class MovieController {
             return ResultDTO.success(content);
         }catch (Exception e){
             logger.error("获取电影详情数据失败:{}",e.getMessage());
-            return ResultDTO.failed("获取电影详情数据失败!");
+            return ResultDTO.failed("获取电影详情数据失败,请检查网络是否正常!");
         }
     }
     
@@ -90,7 +90,7 @@ public class MovieController {
             return ResultDTO.success(content);
         }catch (Exception e){
             logger.error("获取电影评论数据失败:{}",e.getMessage());
-            return ResultDTO.failed("获取电影评论数据失败!");
+            return ResultDTO.failed("获取电影评论数据失败,请检查网络是否正常");
         }
     }
     
