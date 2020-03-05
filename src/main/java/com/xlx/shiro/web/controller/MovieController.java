@@ -48,7 +48,7 @@ public class MovieController {
      * 即将上映电影
      * @return dto
      */
-    @GetMapping("/movie/getMovieComing")
+    @GetMapping("/movie/coming")
     @ResponseBody
     public ResultDTO getMovieComingInfo(){
         try{
