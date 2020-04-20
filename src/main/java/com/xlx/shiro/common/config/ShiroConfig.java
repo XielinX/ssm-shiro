@@ -64,7 +64,6 @@ public class ShiroConfig {
 	 * @return RedisManager
 	 */
 	private RedisManager redisManager() {
-		log.info("Initializing  *redisManager");
 		//log.info("host={},port={},password={},timeout={},database={}",host,port,password,timeout,database);
 		
 		RedisManager redisManager = new RedisManager();
@@ -93,7 +92,6 @@ public class ShiroConfig {
 	 * @return RedisCacheManager
 	 */
 	private RedisCacheManager cacheManager() {
-		log.info("Initializing  *cacheManager");
 		RedisCacheManager redisCacheManager = new RedisCacheManager();
 		redisCacheManager.setRedisManager(redisManager());
 		return redisCacheManager;
@@ -107,7 +105,6 @@ public class ShiroConfig {
 	 */
 	@Bean(name = "shiroFilter")
 	public ShiroFilterFactoryBean shiroFilterFactory(SecurityManager securityManager) {
-		log.info("Initializing  *shiroFilter");
 		ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
 		//设置过滤器
@@ -155,7 +152,6 @@ public class ShiroConfig {
 	 */
 	@Bean("credentialsMatcher")
 	public HashedCredentialsMatcher hashedCredentialsMatcher() {
-		log.info("Initializing  *credentialsMatcher");
 		//CacheManager
 		HashedCredentialsMatcher credentialsMatcher = new RetryLimitHashedCredentialsMatcher();
 		//密码匹配设置:采用的加密算法md5,迭代次数2,使用16进制编码存储密码
@@ -170,7 +166,6 @@ public class ShiroConfig {
 	 */
 	@Bean(name = "userRealm")
 	public UserRealm userRealm() {
-		log.info("Initializing  *userRealm");
 		UserRealm userRealm = new UserRealm();
 		//使用自定义的CredentialsMatcher
 		userRealm.setCredentialsMatcher(hashedCredentialsMatcher());
@@ -184,7 +179,6 @@ public class ShiroConfig {
 	 */
 	@Bean(name = "securityManager")
 	public SecurityManager securityManager() {
-		log.info("Initializing  *securityManager");
 		DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
 		// Realm
 		defaultWebSecurityManager.setRealm(userRealm());
@@ -207,7 +201,6 @@ public class ShiroConfig {
 	 */
 	@Bean
 	public RedisSessionDAO sessionDAO() {
-		log.info("Initializing  *sessionDAO");
 		RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
 		redisSessionDAO.setRedisManager(redisManager());
 		return redisSessionDAO;
@@ -221,7 +214,6 @@ public class ShiroConfig {
 	 * @return SimpleCookie
 	 */
 	private SimpleCookie rememberMeCookie() {
-		log.info("Initializing  *rememberMeCookie");
 		SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
 		simpleCookie.setHttpOnly(true);
 		//过期时间,单位:秒;此处设置1天
@@ -237,7 +229,6 @@ public class ShiroConfig {
 	 * @return obj
 	 */
 	private CookieRememberMeManager rememberMeManager() {
-		log.info("Initializing  *rememberMeManager");
 		CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
 		cookieRememberMeManager.setCookie(rememberMeCookie());
 		//rememberMe cookie加密的密钥
@@ -254,7 +245,6 @@ public class ShiroConfig {
 	 */
 	@Bean(name = "sessionManager")
 	public DefaultWebSessionManager sessionManager() {
-		log.info("Initializing  *sessionManager");
 
 		DefaultWebSessionManager defaultWebSessionManager = new DefaultWebSessionManager();
 		ArrayList<SessionListener> listeners = new ArrayList<>();
@@ -281,7 +271,6 @@ public class ShiroConfig {
 	 */
 	@Bean
 	public MethodInvokingFactoryBean methodInvokingFactoryBean(@Qualifier("securityManager") SecurityManager securityManager) {
-		log.info("Initializing  *methodInvokingFactoryBean");
 		MethodInvokingFactoryBean methodInvokingFactoryBean = new MethodInvokingFactoryBean();
 		methodInvokingFactoryBean.setStaticMethod("org.apache.shiro.SecurityUtils.setSecurityManager");
 		//SecurityManager
@@ -298,7 +287,6 @@ public class ShiroConfig {
 	 */
 	@Bean
 	public ShiroDialect dialectForThymeleaf() {
-		log.info("Initializing  *dialectForThymeleaf");
 		return new ShiroDialect();
 	}
 
@@ -310,7 +298,6 @@ public class ShiroConfig {
 	 */
 	@Bean("lifecycleBeanPostProcessor")
 	public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-		log.info("Initializing  *lifecycleBeanPostProcessor");
 		return new LifecycleBeanPostProcessor();
 	}
 	/*@Bean
@@ -329,9 +316,7 @@ public class ShiroConfig {
 	 */
 	@Bean
 	public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
-		log.info("Initializing  *shiroAnnotation");
 		AuthorizationAttributeSourceAdvisor attributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
-		//SecurityManager
 		attributeSourceAdvisor.setSecurityManager(securityManager);
 		return attributeSourceAdvisor;
 	}

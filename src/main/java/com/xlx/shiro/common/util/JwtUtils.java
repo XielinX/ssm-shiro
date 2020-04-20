@@ -121,7 +121,7 @@ public class JwtUtils {
     SecretKey secretKey = createSecretKey();
       return Jwts.parser()
               .setSigningKey(secretKey)
-              .parseClaimsJws(TOKEN_PREFIX)
+              .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
               .getBody();
     }
 

@@ -27,6 +27,7 @@ import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.Serializable;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
 /**
@@ -67,7 +68,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 	 */
 	@Bean
 	public JedisPool redisPoolFactory() {
-		log.info("Initializing  *JedisPool");
 		JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
 		jedisPoolConfig.setMaxIdle(maxIdle);
 		jedisPoolConfig.setMaxWaitMillis(maxWait);
@@ -84,7 +84,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 	 */
 	@Bean
 	public JedisConnectionFactory jedisConnectionFactory() {
-		log.info("Initializing  *jedisConnectionFactory");
 		RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
 		
 		redisStandaloneConfiguration.setHostName(host);
@@ -113,7 +112,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 	@SuppressWarnings({"unchecked", "rawtypes"})
 	@ConditionalOnBean(name = "redisTemplate")
 	public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-		log.info("Initializing  *redisTemplate");
 		RedisTemplate<Object, Object> template = new RedisTemplate<>();
 		
 		// 使用StringRedisSerializer来序列化key值
@@ -140,7 +138,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 	@Bean
 	@ConditionalOnBean(StringRedisTemplate.class)
 	public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory){
-		log.info("Initializing  *stringRedisTemplate");
 		StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
 		stringRedisTemplate.setConnectionFactory(redisConnectionFactory);
 		return stringRedisTemplate;
@@ -153,7 +150,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 	 */
 	//@Bean
 	public RedisTemplate<String, Serializable> limitRedisTemplate(RedisConnectionFactory redisConnectionFactory){
-		log.info("Initializing  *limitRedisTemplate");
 		RedisTemplate<String,Serializable> limitTemplate = new RedisTemplate<>();
 		// 序列化
 		limitTemplate.setKeySerializer(new StringRedisSerializer());
@@ -171,7 +167,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 	 */
 	@Bean
 	public CacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-		log.info("Initializing  *cacheManager");
 		RedisCacheManager.RedisCacheManagerBuilder builder = RedisCacheManager
 						                                                     .RedisCacheManagerBuilder
 						                                                     .fromConnectionFactory(redisConnectionFactory);
@@ -190,7 +185,6 @@ public class RedisConfig extends CachingConfigurerSupport {
 	 */
 	@Bean
 	public KeyGenerator keyGenerator(){
-		log.info("Initializing  *keyGenerator");
 		return (target,method,params) -> {
 			StringBuilder builder = new StringBuilder();
 			builder.append(target.getClass().getName())
@@ -227,10 +221,10 @@ public class RedisConfig extends CachingConfigurerSupport {
 class FastJsonRedisSerializer<T> implements RedisSerializer<T>{
 	
 	// 默认编码
-	private static final Charset DEFAULT_CHARSET = Charset.forName("UTF-8");
+	private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 	
 	// 参数对象
-	private Class<T> clazz;
+	private final Class<T> clazz;
 	
 	FastJsonRedisSerializer(Class<T> clazz) {
 		super();
